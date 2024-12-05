@@ -63,6 +63,7 @@ struct RepoCellContent: View {
             if viewModel.repo.isHighlighted {
                 BottomLeftCornerShape()
                     .fill(Color.yellow)
+                    .shadow(color: .yellow.opacity(0.5), radius: 3, x: 0, y: 2)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
         }
@@ -160,10 +161,12 @@ struct ActionButton: View {
     var body: some View {
         Button(action: action) {
             Text(text)
-                .foregroundColor(.white)
+                .font(.subheadline)
+                .foregroundColor(.black)
                 .padding()
                 .background(color)
                 .cornerRadius(8)
+                .shadow(radius: 3)
         }
         .padding(.trailing, 5)
     }

@@ -6,11 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		BE4113062D00E77F00FC1512 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEED68852CF9D6AA006464A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BEED688C2CF9D6AA006464A1;
+			remoteInfo = RepoViewer;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		BE4113022D00E77F00FC1512 /* RepoViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepoViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEED688D2CF9D6AA006464A1 /* RepoViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RepoViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		BE4113032D00E77F00FC1512 /* RepoViewerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RepoViewerTests;
+			sourceTree = "<group>";
+		};
 		BEED688F2CF9D6AA006464A1 /* RepoViewer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = RepoViewer;
@@ -19,6 +35,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		BE4112FF2D00E77F00FC1512 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BEED688A2CF9D6AA006464A1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				BEED688F2CF9D6AA006464A1 /* RepoViewer */,
+				BE4113032D00E77F00FC1512 /* RepoViewerTests */,
 				BEED688E2CF9D6AA006464A1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				BEED688D2CF9D6AA006464A1 /* RepoViewer.app */,
+				BE4113022D00E77F00FC1512 /* RepoViewerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +73,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		BE4113012D00E77F00FC1512 /* RepoViewerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE4113082D00E77F00FC1512 /* Build configuration list for PBXNativeTarget "RepoViewerTests" */;
+			buildPhases = (
+				BE4112FE2D00E77F00FC1512 /* Sources */,
+				BE4112FF2D00E77F00FC1512 /* Frameworks */,
+				BE4113002D00E77F00FC1512 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE4113072D00E77F00FC1512 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BE4113032D00E77F00FC1512 /* RepoViewerTests */,
+			);
+			name = RepoViewerTests;
+			packageProductDependencies = (
+			);
+			productName = RepoViewerTests;
+			productReference = BE4113022D00E77F00FC1512 /* RepoViewerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		BEED688C2CF9D6AA006464A1 /* RepoViewer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BEED689B2CF9D6AB006464A1 /* Build configuration list for PBXNativeTarget "RepoViewer" */;
@@ -80,6 +128,10 @@
 				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
+					BE4113012D00E77F00FC1512 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = BEED688C2CF9D6AA006464A1;
+					};
 					BEED688C2CF9D6AA006464A1 = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -100,11 +152,19 @@
 			projectRoot = "";
 			targets = (
 				BEED688C2CF9D6AA006464A1 /* RepoViewer */,
+				BE4113012D00E77F00FC1512 /* RepoViewerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		BE4113002D00E77F00FC1512 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BEED688B2CF9D6AA006464A1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +175,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		BE4112FE2D00E77F00FC1512 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BEED68892CF9D6AA006464A1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +191,61 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		BE4113072D00E77F00FC1512 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BEED688C2CF9D6AA006464A1 /* RepoViewer */;
+			targetProxy = BE4113062D00E77F00FC1512 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		BE4113092D00E77F00FC1512 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3YZWNV863X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pavel.afanasev.RepoViewerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RepoViewer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RepoViewer";
+			};
+			name = Debug;
+		};
+		BE41130A2D00E77F00FC1512 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3YZWNV863X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pavel.afanasev.RepoViewerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RepoViewer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RepoViewer";
+			};
+			name = Release;
+		};
 		BEED68992CF9D6AB006464A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -315,6 +436,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BE4113082D00E77F00FC1512 /* Build configuration list for PBXNativeTarget "RepoViewerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE4113092D00E77F00FC1512 /* Debug */,
+				BE41130A2D00E77F00FC1512 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BEED68882CF9D6AA006464A1 /* Build configuration list for PBXProject "RepoViewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

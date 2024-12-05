@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 
+/// Сервис для работы с локальной базой данных на основе SwiftData
 @MainActor
 final class LocalRepoStorage: LocalRepoRepository {
     private let context: ModelContext
@@ -9,11 +10,17 @@ final class LocalRepoStorage: LocalRepoRepository {
         self.context = context
     }
     
+    // MARK: - Public Properties
     func saveReposToLocal(_ repos: [Repo]) async throws {
         for repo in repos {
-            try saveOrUpdateRepository(repo)
+            if let existingRepo = try fetchRepository(by: repo.id) {
+                let updatedRepo = repo.withHighlighted(from: Repo(repository: existingRepo))
+                update(existingRepo, with: updatedRepo)
+            } else {
+                context.insert(Repository(repo: repo))
+            }
         }
-        try context.save()
+        try saveContext()
     }
     
     func fetchLocalRepos(sortOption: SortOption) async throws -> [Repo] {
@@ -40,18 +47,7 @@ final class LocalRepoStorage: LocalRepoRepository {
         try saveContext()
     }
     
-    private func saveOrUpdateRepository(_ repo: Repo) throws {
-        do {
-            if let existingRepo = try fetchRepository(by: repo.id) {
-                update(existingRepo, with: repo)
-            } else {
-                context.insert(Repository(repo: repo))
-            }
-        } catch {
-            throw LocalRepoStorageError.custom(message: "Unexpected error while saving or updating repository: \(error.localizedDescription)")
-        }
-    }
-    
+    // MARK: - Private Properties
     private func update(_ existingRepo: Repository, with repo: Repo) {
         existingRepo.name = repo.name
         existingRepo.repoDescription = repo.description

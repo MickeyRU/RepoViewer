@@ -1,5 +1,6 @@
 import Foundation
 
+/// Главная модель репозитория для работы внутри приложения
 struct Repo: Identifiable, Equatable {
     let id: Int
     let name: String
@@ -41,18 +42,11 @@ extension Repo {
     }
 }
 
-extension Repository {
-    convenience init(repo: Repo) {
-        self.init(
-            id: repo.id,
-            name: repo.name,
-            repoDescription: repo.description,
-            stars: repo.stars,
-            forks: repo.forks,
-            updatedAt: repo.updatedAt,
-            repoAvatarUrl: repo.owner.avatarUrl,
-            isHighlighted: repo.isHighlighted
-        )
+extension Repo {
+    func withHighlighted(from other: Repo) -> Repo {
+        var updatedRepo = self
+        updatedRepo.isHighlighted = other.isHighlighted
+        return updatedRepo
     }
 }
 

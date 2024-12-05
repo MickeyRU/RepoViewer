@@ -1,5 +1,6 @@
 import Foundation
 
+/// Сортировка репозиториев - каждый кейс является кнопкой в Picker на экране
 enum SortOption: String, CaseIterable {
     case basic = ""
     case stars

@@ -1,5 +1,6 @@
 import Foundation
 
+/// Сервис для работы с удаленным репозиториями - в данном случае с GitHub
 final class RemoteRepoService: RemoteRepoRepository {
     private let apiClient: GitHubAPIClient
     

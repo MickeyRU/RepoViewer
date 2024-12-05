@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 
+/// Главная модель репозитория для локального хранения в SwiftData
 @Model
 final class Repository {
     var id: Int
@@ -29,5 +30,20 @@ final class Repository {
         self.updatedAt = updatedAt
         self.repoAvatarUrl = repoAvatarUrl
         self.isHighlighted = isHighlighted
+    }
+}
+
+extension Repository {
+    convenience init(repo: Repo) {
+        self.init(
+            id: repo.id,
+            name: repo.name,
+            repoDescription: repo.description,
+            stars: repo.stars,
+            forks: repo.forks,
+            updatedAt: repo.updatedAt,
+            repoAvatarUrl: repo.owner.avatarUrl,
+            isHighlighted: repo.isHighlighted
+        )
     }
 }

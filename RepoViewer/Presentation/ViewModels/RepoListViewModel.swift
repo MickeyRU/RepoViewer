@@ -3,123 +3,123 @@ import Combine
 
 @MainActor
 final class RepoListViewModel: ObservableObject {
+    // MARK: - Published Properties
     @Published var state: ViewState = .idle
     @Published var repos: [Repo] = []
     @Published var searchQuery: String = ""
     @Published var sortOption: SortOption = .basic
     @Published var showOnlyHighlighted: Bool = false
     
+    // MARK: - Dependencies
     private let fetchReposUseCase: FetchReposUseCase
+    
+    // MARK: - Private Properties
     private var currentPage: Int = 1
     private var isLastPage: Bool = false
     private var cancellables = Set<AnyCancellable>()
     
+    // MARK: - Initializer
     init(fetchReposUseCase: FetchReposUseCase) {
         self.fetchReposUseCase = fetchReposUseCase
-        observeSortOption()
-        observeSearchQuery()
-        observeShowOnlyHighlighted()
-        fetchRepos()
+        setupBindings()
+        Task { await loadInitialData() }
     }
     
-    func loadNextPage() {
+    // MARK: - Public Methods
+    func loadNextPage() async {
         guard state != .loading, !isLastPage else { return }
         currentPage += 1
-        fetchRepos()
+        await fetchRepos()
     }
     
-    func refresh() {
+    func refresh() async {
         resetData()
-        fetchRepos()
+        await fetchRepos()
     }
     
-    func delete(at index: Int) {
+    func delete(at index: Int) async {
         guard repos.indices.contains(index) else { return }
         let repoToDelete = repos[index]
         
-        Task {
-            do {
-                try await fetchReposUseCase.deleteRepository(repoToDelete)
-                
-                repos.remove(at: index)
-                
-                if repos.isEmpty {
-                    state = .empty
-                }
-            } catch {
-                state = .error("Failed to delete repository: \(error.localizedDescription)")
-            }
+        do {
+            try await fetchReposUseCase.deleteRepository(repoToDelete)
+            repos.remove(at: index)
+            state = repos.isEmpty ? .empty : .loaded
+        } catch {
+            state = .error("Failed to delete repository: \(error.localizedDescription)")
         }
+        
     }
     
-    func highlight(at index: Int) {
+    func highlight(at index: Int) async {
         guard repos.indices.contains(index) else { return }
         repos[index].isHighlighted.toggle()
         
         let repo = repos[index]
-        Task {
-            do {
-                try await fetchReposUseCase.updateRepository(repo)
-            } catch {
-                state = .error("Failed to update repository: \(error.localizedDescription)")
-            }
+        do {
+            try await fetchReposUseCase.updateRepository(repo)
+        } catch {
+            state = .error("Failed to update repository: \(error.localizedDescription)")
         }
     }
     
-    /// Наблюдаем за изменениями сортировки
-    private func observeSortOption() {
+    // MARK: - Private Methods
+    private func setupBindings() {
         $sortOption
             .dropFirst()
             .sink { [weak self] _ in
-                self?.refresh()
+                Task { await self?.refresh() }
             }
             .store(in: &cancellables)
-    }
-    
-    /// Наблюдаем за изменениями строки поиска
-    private func observeSearchQuery() {
+        
         $searchQuery
             .dropFirst()
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] _ in
-                self?.refresh()
+                Task { await self?.refresh() }
             }
             .store(in: &cancellables)
-    }
-    
-    /// Наблюдаем за Highlighted
-    private func observeShowOnlyHighlighted() {
+        
         $showOnlyHighlighted
             .dropFirst()
             .sink { [weak self] _ in
-                self?.refresh()
+                Task {
+                    self?.searchQuery = ""
+                    await self?.refresh()
+                }
             }
             .store(in: &cancellables)
     }
     
+    private func loadInitialData() async {
+        await fetchRepos()
+    }
     
-    /// Загружаем данные из UseCase
-    private func fetchRepos() {
+    private func fetchRepos() async {
         state = .loading
         
-        Task {
-            do {
-                var fetchedRepos = try await fetchReposUseCase.fetchRepositories(query: searchQuery, page: currentPage, sortOption: sortOption)
-                
-                if showOnlyHighlighted {
-                    fetchedRepos = fetchedRepos.filter { $0.isHighlighted }
-                }
-                
-                if fetchedRepos.isEmpty {
-                    state = searchQuery.isEmpty && repos.isEmpty ? .idle : .empty
+        do {
+            let fetchedRepos = try await fetchReposUseCase.fetchRepositories(query: searchQuery,
+                                                                             page: currentPage,
+                                                                             sortOption: sortOption)
+            
+            let filteredRepos = showOnlyHighlighted ? fetchedRepos.filter { $0.isHighlighted } : fetchedRepos
+            
+            
+            if filteredRepos.isEmpty {
+                state = searchQuery.isEmpty && repos.isEmpty ? .idle : .empty
+                isLastPage = true
+            } else {
+                if currentPage == 1 {
+                    repos = filteredRepos
                 } else {
-                    repos = fetchedRepos
-                    state = .loaded
+                    repos.append(contentsOf: filteredRepos)
                 }
-            } catch {
-                state = .error("Failed to fetch repositories: \(error.localizedDescription)")
+                state = .loaded
             }
+        } catch {
+            state = .error("Failed to fetch repositories: \(error.localizedDescription)")
         }
     }
     
@@ -127,5 +127,26 @@ final class RepoListViewModel: ObservableObject {
         repos.removeAll()
         currentPage = 1
         isLastPage = false
+    }
+}
+
+
+
+// MARK: - Extension
+extension RepoListViewModel {
+    func handleHighlight(at index: Int) {
+        Task { await highlight(at: index) }
+    }
+    
+    func handleDelete(at index: Int) {
+        Task { await delete(at: index) }
+    }
+    
+    func handleLoadNextPage() {
+        Task { await loadNextPage() }
+    }
+    
+    func handleRefresh() {
+        Task { await refresh() }
     }
 }

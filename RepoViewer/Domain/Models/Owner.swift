@@ -1,5 +1,6 @@
 import Foundation
 
+/// Владелец репозитория на GitHub
 struct Owner: Equatable {
     let avatarUrl: String
     
